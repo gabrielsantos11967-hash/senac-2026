@@ -1,0 +1,15 @@
+{
+    "sqltools.connections": [
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "172.16.80.50",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "02",
+            "database": "equipe02",
+            "username": "equipe02"
+        }
+    ]
+}
