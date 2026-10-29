@@ -13,13 +13,13 @@ SETORES = (
     ("Financeiro", "Contabilidade, faturamento e fluxo de caixa"),
 )
 
-LANCAMENTOS = (
-    ("Manutencao de Servidores", 1500.00, "Despesa", "2026-10-01", False, "Tecnologia da Informacao"),
-    ("Treinamento de Equipe", 3000.00, "Despesa", "2026-10-10", True, "Recursos Humanos"),
-    ("Venda de Software B2B", 15000.00, "Receita", "2026-10-15", True, "Tecnologia da Informacao"),
-    ("Auditoria Contabil", 4500.00, "Despesa", "2026-10-20", False, "Financeiro"),
-    ("Consultoria de Infraestrutura", 2200.00, "Despesa", "2026-10-25", False, "Tecnologia da Informacao"),
-)
+# LANCAMENTOS = (
+#     ("Manutencao de Servidores", 1500.00, "Despesa", "2026-10-01", False, "Tecnologia da Informacao"),
+#     ("Treinamento de Equipe", 3000.00, "Despesa", "2026-10-10", True, "Recursos Humanos"),
+#     ("Venda de Software B2B", 15000.00, "Receita", "2026-10-15", True, "Tecnologia da Informacao"),
+#     ("Auditoria Contabil", 4500.00, "Despesa", "2026-10-20", False, "Financeiro"),
+#     ("Consultoria de Infraestrutura", 2200.00, "Despesa", "2026-10-25", False, "Tecnologia da Informacao"),
+# )
 
 
 def connection_settings():

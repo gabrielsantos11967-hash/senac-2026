@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lancamentos financeiros</title>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: system-ui, sans-serif;
+            color: #172033;
+            background: #f3f6fb;
+        }
+
+        body {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        p {
+            color: #526078;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 24px;
+            border: 1px solid #dce3ee;
+            border-radius: 12px;
+            background: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th,
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #e8edf4;
+            white-space: nowrap;
+        }
+
+        th {
+            color: #46546b;
+            background: #f8faff;
+            font-size: 0.85rem;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .empty {
+            padding: 28px;
+            text-align: center;
+        }
+
+        .status {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Lancamentos financeiros</h1>
+        <p>Registros carregados do PostgreSQL remoto: {{ lancamentos|length }}</p>
+
+        <div class="table-container">
+            {% if lancamentos %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Descricao</th>
+                            <th>Valor</th>
+                            <th>Tipo</th>
+                            <th>Data</th>
+                            <th>Conciliado</th>
+                            <th>Setor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for lancamento in lancamentos %}
+                            <tr>
+                                <td>{{ lancamento.id }}</td>
+                                <td>{{ lancamento.descricao }}</td>
+                                <td>R$ {{ lancamento.valor|floatformat:2 }}</td>
+                                <td>{{ lancamento.tipo }}</td>
+                                <td>{{ lancamento.data|date:"d/m/Y" }}</td>
+                                <td class="status">
+                                    {% if lancamento.conciliado %}Sim{% else %}Nao{% endif %}
+                                </td>
+                                <td>{{ lancamento.setor }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="empty">Nenhum lancamento encontrado.</p>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>

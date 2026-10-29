@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from config.views import financeiro_list
+
 urlpatterns = [
+    path('', financeiro_list, name='financeiro_list'),
     path('admin/', admin.site.urls),
 ]

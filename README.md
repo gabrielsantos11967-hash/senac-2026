@@ -3,8 +3,9 @@
 O projeto demonstra a conexao a um banco PostgreSQL e as operacoes CRUD em
 lancamentos financeiros relacionados a setores. O script Python cria as tabelas,
 insere dados de exemplo e exibe os resultados das consultas e alteracoes.
-Os arquivos estao separados: o codigo Python fica em `python/` e os comandos
-para conferencia no SQLTools ficam em `postgresql/`.
+Os arquivos estao separados: o projeto Django fica em `config/`, o script
+Python fica em `python/` e os comandos para conferencia no SQLTools ficam em
+`postgresql/`.
 
 ## Conexao
 
@@ -34,13 +35,60 @@ DB_PASSWORD=
 ```
 
 Mantenha a senha apenas no `.env` local. Nao tire print desse arquivo nem
-compartilhe seu conteudo. Instale as dependencias e execute o programa no
-terminal integrado do VS Code:
+compartilhe seu conteudo. O script Python e o Django carregam essas variaveis
+do mesmo `.env`. Instale as dependencias no terminal integrado do VS Code:
 
 ```powershell
 python -m pip install -r .\python\requirements.txt
+```
+
+### Django no PostgreSQL remoto
+
+O Django usa PostgreSQL como banco padrao, com `DB_HOST`, `DB_PORT`, `DB_NAME`,
+`DB_USER` e `DB_PASSWORD` do `.env`. Ele nao troca silenciosamente para SQLite:
+se faltar uma variavel obrigatoria, a inicializacao informa qual precisa ser
+configurada. Depois de confirmar que o servidor remoto esta acessivel, crie as
+tabelas internas do Django e inicie o projeto:
+
+```powershell
+python .\manage.py migrate
+python .\manage.py runserver
+```
+
+As migracoes criam as tabelas administrativas do Django no banco remoto. As
+tabelas de lancamentos `setor` e `financeiro` continuam sendo criadas pelo
+script abaixo ou por `postgresql/02.session.sql`:
+
+```powershell
 python .\python\crud_financeiro.py
 ```
+
+### Gerenciar os lancamentos no Django Admin
+
+O app `financeiro` mapeia as tabelas existentes `setor` e `financeiro` para
+modelos Django e os disponibiliza em `/admin/`. Esses modelos usam
+`managed = False`: o Django pode consultar e editar as tabelas, mas as
+migracoes nao tentam cria-las ou modifica-las. Crie primeiro as tabelas pelo
+script Python ou pelo SQL acima. Depois, aplique as migracoes internas do
+Django, crie um usuario administrador e inicie o servidor:
+
+```powershell
+python .\manage.py migrate
+python .\manage.py createsuperuser
+python .\manage.py runserver
+```
+
+Acesse `http://127.0.0.1:8000/admin/` e entre com o usuario criado. O admin
+permite cadastrar, consultar, alterar e excluir lancamentos e setores; um
+setor que tenha lancamentos associados nao pode ser excluido.
+
+### Pagina de lancamentos
+
+A pagina inicial (`http://127.0.0.1:8000/`) usa a view
+`config/views.py` para consultar os lancamentos diretamente no PostgreSQL e
+renderiza os dados em `templates/financeiro/lista.html`. Ela exibe descricao,
+valor, tipo, data, conciliacao e setor; por isso, as tabelas `financeiro` e
+`setor` precisam existir no banco remoto antes de abrir a pagina.
 
 O script imprime host, porta, banco e usuario, mas nunca imprime a senha. Para
 registrar a conexao, tire um print do SQLTools conectado e outro do terminal
