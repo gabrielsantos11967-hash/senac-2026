@@ -82,6 +82,16 @@ Acesse `http://127.0.0.1:8000/admin/` e entre com o usuario criado. O admin
 permite cadastrar, consultar, alterar e excluir lancamentos e setores; um
 setor que tenha lancamentos associados nao pode ser excluido.
 
+A tabela `funcionarios`, criada pelo SQL `postgresql/funcionarios.sql`, aparece
+no Admin como "Funcionários". Seu model Django usa `managed = False`, então
+permite consultar e cadastrar funcionários sem criar ou alterar a tabela pelas
+migrações. Ao cadastrar um funcionário, o formulário também pede os dados de
+um setor e de um lançamento. Os três registros são gravados juntos em uma
+transação; o lançamento fica associado ao funcionário e ao mesmo setor. Execute
+primeiro `postgresql/02.session.sql` e depois `postgresql/funcionarios.sql` no
+SQLTools. O segundo script adiciona as colunas de relação necessárias às
+tabelas existentes antes de usar esse formulário.
+
 ### Pagina de lancamentos
 
 A pagina inicial (`http://127.0.0.1:8000/`) usa a view
@@ -89,6 +99,11 @@ A pagina inicial (`http://127.0.0.1:8000/`) usa a view
 renderiza os dados em `templates/financeiro/lista.html`. Ela exibe descricao,
 valor, tipo, data, conciliacao e setor; por isso, as tabelas `financeiro` e
 `setor` precisam existir no banco remoto antes de abrir a pagina.
+
+A pagina `http://127.0.0.1:8000/funcionarios/` consulta a tabela `funcionarios`
+diretamente com SQL em `config/funcionarios_views.py`, sem model Django. Crie a
+tabela no banco pelo SQL `postgresql/funcionarios.sql` antes de abrir a pagina.
+Ela espera as colunas `id`, `nome`, `cargo` e `email`.
 
 O script imprime host, porta, banco e usuario, mas nunca imprime a senha. Para
 registrar a conexao, tire um print do SQLTools conectado e outro do terminal

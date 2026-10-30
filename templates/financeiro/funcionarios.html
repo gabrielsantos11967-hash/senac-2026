@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Funcionarios</title>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: system-ui, sans-serif;
+            color: #172033;
+            background: #f3f6fb;
+        }
+
+        body {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        p {
+            color: #526078;
+        }
+
+        a {
+            color: #2457a7;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 24px;
+            border: 1px solid #dce3ee;
+            border-radius: 12px;
+            background: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th,
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #e8edf4;
+        }
+
+        th {
+            color: #46546b;
+            background: #f8faff;
+            font-size: 0.85rem;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .empty {
+            padding: 28px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <p><a href="{% url 'financeiro_list' %}">Voltar aos lancamentos financeiros</a></p>
+        <h1>Funcionarios</h1>
+        <p>Registros carregados do PostgreSQL: {{ funcionarios|length }}</p>
+
+        <div class="table-container">
+            {% if funcionarios %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Cargo</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for funcionario in funcionarios %}
+                            <tr>
+                                <td>{{ funcionario.id }}</td>
+                                <td>{{ funcionario.nome }}</td>
+                                <td>{{ funcionario.cargo }}</td>
+                                <td>{{ funcionario.email }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="empty">Nenhum funcionario encontrado.</p>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>

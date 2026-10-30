@@ -70,6 +70,7 @@
 <body>
     <main>
         <h1>Lancamentos financeiros</h1>
+        <p><a href="{% url 'funcionarios_list' %}">Ver tabela de funcionarios</a></p>
         <p>Registros carregados do PostgreSQL remoto: {{ lancamentos|length }}</p>
 
         <div class="table-container">

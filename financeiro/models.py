@@ -17,6 +17,30 @@ class Setor(models.Model):
         return self.nome
 
 
+class Funcionario(models.Model):
+    id = models.AutoField(primary_key=True)
+    nome = models.CharField(max_length=150)
+    cargo = models.CharField(max_length=100)
+    email = models.EmailField(max_length=254, unique=True)
+    setor = models.ForeignKey(
+        Setor,
+        on_delete=models.PROTECT,
+        db_column='setor_id',
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        managed = False
+        db_table = 'funcionarios'
+        verbose_name = 'funcionário'
+        verbose_name_plural = 'funcionários'
+        ordering = ('nome', 'id')
+
+    def __str__(self):
+        return self.nome
+
+
 class Lancamento(models.Model):
     id = models.AutoField(primary_key=True)
     descricao = models.CharField(max_length=255, unique=True)
@@ -25,6 +49,12 @@ class Lancamento(models.Model):
     data = models.DateField()
     conciliado = models.BooleanField(default=False)
     setor = models.ForeignKey(Setor, on_delete=models.PROTECT)
+    funcionario = models.ForeignKey(
+        Funcionario,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         managed = False
